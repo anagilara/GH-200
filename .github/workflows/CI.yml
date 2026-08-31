@@ -15,6 +15,10 @@ on:
   schedule:
     - cron: '0 6 * * SUN'
 
+env:
+  AZURE_WEBAPP_NAME: gh200webapp3925
+  AZURE_WEBAPP_PACKAGE_PATH: '.'   
+
 jobs:
   selfhostedrunner:
     if: github.ref == 'refs/heads/developer'
@@ -22,13 +26,12 @@ jobs:
     steps:
       - name: HolaMundo
         run: 'echo "Hola mundo desde un self-hosted runner"'
+        
   CI:
     strategy:
       matrix:
         node-version: [22.x, 24.x]
     runs-on: ubuntu-latest
-
-    
     steps:
     - name: Checkout
       uses: actions/checkout@v4  
@@ -42,3 +45,36 @@ jobs:
       run: npm install
     - name: Ejecutar pruebas
       run: npm test
+    - name: Upload artifact for deployment job
+      uses: actions/upload-artifact@v4
+      with:
+        name: node-app
+        path: .
+
+  CD:
+   runs-on: ubuntu-latest
+   needs: CI
+   name: Deploy to Azure
+   steps:
+     - name: Download artifact from build job
+       uses: actions/download-artifact@v4
+       with:
+         name: node-app
+     - name: "Login via Azure CLI"
+       uses: azure/login@v1
+       with:
+         creds: ${{ secrets.AZURE_CREDENTIALS }}
+     - name: 'Deploy to Azure WebApp'
+       id: deploy-to-webapp
+       uses: azure/webapps-deploy@v2
+       with:
+         app-name: ${{ env.AZURE_WEBAPP_NAME }}
+         publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+         package: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
+     - name: Azure logout
+       run: |
+         az logout
+
+
+     
+   
