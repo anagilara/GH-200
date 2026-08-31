@@ -8,4 +8,3 @@ const app = createApp();
 app.listen(port, () => {
   console.log(`Servidor de administracion de usuarios escuchando en http://localhost:${port}`);
 });
-
