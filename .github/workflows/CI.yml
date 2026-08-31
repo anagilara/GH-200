@@ -17,11 +17,12 @@ on:
 
 jobs:
   selfhostedrunner:
+    if: github.ref == 'refs/heads/main'
     runs-on: self-hosted
     steps:
       - name: HolaMundo
         run: 'echo "Hola mundo desde un self-hosted runner"'
-  test:
+  CI:
     strategy:
       matrix:
         node-version: [22.x, 24.x]
