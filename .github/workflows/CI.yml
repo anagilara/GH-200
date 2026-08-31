@@ -7,6 +7,11 @@ on:
     branches: [main]
     types: opened
   workflow_dispatch:
+    inputs:
+      logLevel:
+        description: 'Nivel de detalle de ejecución'
+        required: false
+        default: 'info'
   schedule:
     - cron: '0 6 * * SUN'
 
@@ -29,4 +34,5 @@ jobs:
       run: npm install
     - name: Ejecutar pruebas
       run: npm test
-    
+    - name: Mostrar parámetros
+     run: 'echo "Nivel seleccionado: ${{ inputs.logLevel }}"'
