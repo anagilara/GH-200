@@ -1,6 +1,6 @@
 {
-  "name": "@anagilara/customer-tenure",
-  "version": "2.0.0",
+  "name": "@anagilara/customer-tenure2",
+  "version": "1.0.0",
   "description": "Paquete para calcular la antigüedad de un cliente",
   "main": "index.js",
   "type": "commonjs",
