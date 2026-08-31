@@ -17,7 +17,7 @@ on:
 
 jobs:
   selfhostedrunner:
-    if: github.ref == 'refs/heads/main'
+    if: github.ref == 'refs/heads/developer'
     runs-on: self-hosted
     steps:
       - name: HolaMundo
