@@ -16,6 +16,11 @@ on:
     - cron: '0 6 * * SUN'
 
 jobs:
+  selfhostedrunner:
+    runs-on: self-hosted
+    steps:
+      - name: HolaMundo
+        run: 'echo "Hola mundo desde un self-hosted runner"'
   test:
     strategy:
       matrix:
