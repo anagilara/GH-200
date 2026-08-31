@@ -7,10 +7,16 @@ on:
     branches: [main]
     types: opened
   workflow_dispatch:
+  schedule:
+    - cron: '0 6 * * SUN'
 
 jobs:
   test:
+    strategy:
+      matrix:
+        node-version: [22.x, 24.x]
     runs-on: ubuntu-latest
+
     
     steps:
     - name: Checkout
@@ -18,7 +24,7 @@ jobs:
     - name: Configurar Node.js
       uses: actions/setup-node@v4
       with:
-        node-version: "20"
+        node-version: ${{matrix.node-version}}
     - name: Instalar dependencias
       run: npm install
     - name: Ejecutar pruebas
